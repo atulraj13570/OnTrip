@@ -5,11 +5,19 @@ const nextConfig = {
   pageExtensions: ['ts', 'tsx'],
   output: 'standalone',
   env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api/v1',
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || '/api/v1',
   },
-  // Vercel-specific optimizations
   images: {
     domains: ['localhost'],
+  },
+  // Rewrite API calls to Next.js API routes
+  async rewrites() {
+    return [
+      {
+        source: '/api/v1/:path*',
+        destination: '/api/:path*',
+      },
+    ];
   },
 }
 
