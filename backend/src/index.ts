@@ -77,14 +77,17 @@ app.use((req: Request, res: Response) => {
 // Error handling
 app.use(errorHandler);
 
-// Start server
-const HOST = '0.0.0.0'; // Listen on all network interfaces
-app.listen(PORT, HOST, () => {
-  console.log(
-    `\n🚀 OnTrip Backend API running on http://localhost:${PORT}\n`
-  );
-  console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
-  console.log(`\n📱 Access from other devices: http://<YOUR_IP>:${PORT}\n`);
-});
+// Start server (only in non-serverless environment)
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  const HOST = '0.0.0.0';
+  app.listen(PORT, HOST, () => {
+    console.log(
+      `\n🚀 OnTrip Backend API running on http://localhost:${PORT}\n`
+    );
+    console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
+    console.log(`\n📱 Access from other devices: http://<YOUR_IP>:${PORT}\n`);
+  });
+}
 
+// Export for Vercel serverless
 export default app;
