@@ -45,9 +45,28 @@ export default function Home() {
               transition={{ duration: 1, type: 'spring' }}
               className="mb-16 md:mb-24"
             >
-              <div className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full glass-4d text-primary-700 text-xs font-black tracking-[0.2em] uppercase mb-8 border-white/60 shadow-xl">
+              <div className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full glass-4d text-primary-700 text-xs font-black tracking-[0.2em] uppercase mb-6 border-white/60 shadow-xl">
                 <Sparkles className="w-4 h-4 text-amber-500 animate-pulse" />
                 <span>Next-Gen Comparison Engine</span>
+              </div>
+
+              <div className="mb-12 max-w-4xl mx-auto px-4">
+                <motion.h2 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  className="text-5xl md:text-7xl font-black text-neutral-900 tracking-tight leading-[1.1] mb-6"
+                >
+                  Find Your <span className="text-gradient">Perfect</span> Tour Package
+                </motion.h2>
+                <motion.p 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                  className="text-lg md:text-2xl text-neutral-600 font-medium leading-relaxed max-w-3xl mx-auto"
+                >
+                  We compare tour packages transparently so you can see exactly what each one includes. Not just the cheapest—the best value.
+                </motion.p>
               </div>
 
               <div className="glass-4d p-3 md:p-5 rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] max-w-5xl mx-auto relative group">
