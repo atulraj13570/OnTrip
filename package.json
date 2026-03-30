@@ -37,5 +37,9 @@
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1",
+    "next": "^14.2.35"
   }
 }
