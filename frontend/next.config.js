@@ -10,12 +10,13 @@ const nextConfig = {
   images: {
     domains: ['localhost'],
   },
-  // Rewrite API calls to Next.js API routes
+  // Proxy all /api/v1/* requests to the Express backend (port 3001)
+  // so port 3000 is the single entry point for both frontend & backend
   async rewrites() {
     return [
       {
         source: '/api/v1/:path*',
-        destination: '/api/:path*',
+        destination: 'http://localhost:3001/api/v1/:path*',
       },
     ];
   },
