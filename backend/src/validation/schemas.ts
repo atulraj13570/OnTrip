@@ -12,7 +12,7 @@ export const SearchQuerySchema = z.object({
   travel_styles: z.string().array().optional(),
   difficulty: z.enum(["Easy", "Moderate", "Strenuous"]).optional(),
   sort: z
-    .enum(["value_score", "trust_score", "price", "newest"])
+    .enum(["overall_score", "value_score", "trust_score", "price", "newest"])
     .optional(),
   page: z.number().min(1).default(1),
   limit: z.number().min(1).max(100).default(20),

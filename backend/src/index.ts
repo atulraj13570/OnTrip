@@ -5,6 +5,7 @@ import cors from "cors";
 import "express-async-errors";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
+import { query } from "./database/db";
 
 // Import routes
 import searchRoutes from "./routes/search";
@@ -13,6 +14,7 @@ import operatorRoutes from "./routes/operators";
 import healthRoutes from "./routes/health";
 import adminRoutes from "./routes/admin";
 import ingestionRoutes from "./routes/ingestion";
+import scraperRoutes from "./routes/scraper";
 
 // Middleware
 import { errorHandler } from "./middleware/errorHandler";
@@ -59,6 +61,7 @@ app.use("/api/v1/packages", packageRoutes);
 app.use("/api/v1/operators", operatorRoutes);
 app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/ingestion", ingestionRoutes);
+app.use("/api/v1/scraper", scraperRoutes);
 
 // 404 handler
 app.use((req: Request, res: Response) => {
@@ -80,12 +83,19 @@ app.use(errorHandler);
 // Start server (only in non-serverless environment)
 if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
   const HOST = '0.0.0.0';
-  app.listen(PORT, HOST, () => {
+  const portNumber = typeof PORT === 'string' ? parseInt(PORT, 10) : PORT;
+  
+  // Database Health Check on Start
+  query("SELECT NOW()")
+    .then((res: any) => console.log("DATABASE_CONNECTED_SUCCESS:", res.rows[0].now))
+    .catch((err: any) => console.error("DATABASE_CONNECTION_FATAL:", err));
+
+  app.listen(portNumber, HOST, () => {
     console.log(
-      `\n🚀 OnTrip Backend API running on http://localhost:${PORT}\n`
+      `\n🚀 OnTrip Backend API running on http://localhost:${portNumber}\n`
     );
     console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
-    console.log(`\n📱 Access from other devices: http://<YOUR_IP>:${PORT}\n`);
+    console.log(`\n📱 Access from other devices: http://<YOUR_IP>:${portNumber}\n`);
   });
 }
 

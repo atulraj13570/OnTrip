@@ -1,4 +1,6 @@
 import { TourPackage } from "../types";
+import { query } from "../database/db";
+import { PackageService } from "./PackageService";
 
 /**
  * Scoring Engine - Calculates value, trust, transparency, risk, and overall scores
@@ -15,8 +17,9 @@ export class ScoringEngine {
   ): number {
     let score = 50; // Neutral baseline
 
-    const costPerNight = pkg.pricing.total_per_person / pkg.total_nights;
-    const marketCostPerNight = marketBaseline.avg_cost_per_night;
+    const totalNights = pkg.total_nights || 1;
+    const costPerNight = (pkg.pricing?.total_per_person || 0) / totalNights;
+    const marketCostPerNight = marketBaseline.avg_cost_per_night || 2000;
 
     // Adjust for cost per night
     if (costPerNight < marketCostPerNight * 0.85) {
@@ -28,29 +31,35 @@ export class ScoringEngine {
     }
 
     // Adjust for hotel rating
-    const avgHotelRating =
-      pkg.nights.reduce((sum, n) => sum + (n.hotel.rating || 0), 0) /
-      pkg.nights.length;
-    if (avgHotelRating >= 4.5) {
-      score += 15;
-    } else if (avgHotelRating < 3.0) {
-      score -= 10;
+    if (pkg.nights && pkg.nights.length > 0) {
+      const avgHotelRating =
+        pkg.nights.reduce((sum, n) => sum + (n.hotel?.rating || 0), 0) /
+        pkg.nights.length;
+      if (avgHotelRating >= 4.5) {
+        score += 15;
+      } else if (avgHotelRating < 3.0) {
+        score -= 10;
+      }
     }
 
     // Adjust for meals
-    const mealsIncluded = pkg.nights.filter(
-      (n) => n.meals.breakfast || n.meals.lunch || n.meals.dinner
-    ).length;
-    const mealsProportion = mealsIncluded / pkg.total_nights;
-    score += mealsProportion * 10;
+    if (pkg.nights) {
+      const mealsIncluded = pkg.nights.filter(
+        (n) => n.meals?.breakfast || n.meals?.lunch || n.meals?.dinner
+      ).length;
+      const mealsProportion = mealsIncluded / totalNights;
+      score += mealsProportion * 10;
+    }
 
     // Adjust for activity value
-    const activityMarketValue = pkg.activities
-      .filter((a) => a.included)
-      .reduce((sum, a) => sum + (a.estimated_market_value || 0), 0);
-
-    if (activityMarketValue > pkg.pricing.total_per_person * 0.5) {
-      score += 15;
+    if (pkg.activities) {
+      const activityMarketValue = pkg.activities
+        .filter((a) => a.included)
+        .reduce((sum, a) => sum + (a.estimated_market_value || 0), 0);
+  
+      if (activityMarketValue > (pkg.pricing?.total_per_person || 0) * 0.5) {
+        score += 15;
+      }
     }
 
     return Math.max(0, Math.min(100, score));
@@ -64,18 +73,20 @@ export class ScoringEngine {
     let score = 50;
 
     // Check for detailed itinerary
-    if (pkg.nights && pkg.nights.length === pkg.total_nights) {
+    if (pkg.nights && pkg.nights.length > 0 && pkg.nights.length === pkg.total_nights) {
       score += 15;
     } else if (pkg.nights && pkg.nights.length > 0) {
       score += 5;
     }
 
     // Check for meal clarity
-    const mealsSpecified = pkg.nights.filter(
-      (n) => n.meals.breakfast || n.meals.lunch || n.meals.dinner
-    ).length;
-    if (mealsSpecified === pkg.nights.length) {
-      score += 10;
+    if (pkg.nights && pkg.nights.length > 0) {
+      const mealsSpecified = pkg.nights.filter(
+        (n) => n.meals && (typeof n.meals.breakfast === 'boolean' || typeof n.meals.lunch === 'boolean' || typeof n.meals.dinner === 'boolean')
+      ).length;
+      if (mealsSpecified === pkg.nights.length) {
+        score += 10;
+      }
     }
 
     // Check for activity detail
@@ -141,19 +152,23 @@ export class ScoringEngine {
     riskScore += destinationRisk * 0.3;
 
     // Cancellation policy risk
-    if (!pkg.cancellation_policy.is_refundable) {
-      riskScore += 25;
-    } else if (!pkg.cancellation_policy.free_cancellation_until) {
-      riskScore += 15;
+    if (pkg.cancellation_policy) {
+      if (!pkg.cancellation_policy.is_refundable) {
+        riskScore += 25;
+      } else if (!pkg.cancellation_policy.free_cancellation_until) {
+        riskScore += 15;
+      }
+    } else {
+      riskScore += 30; // High risk if policy is missing
     }
 
     // Data freshness risk
-    if (pkg.data_freshness_days > 7) {
+    if ((pkg.data_freshness_days || 0) > 7) {
       riskScore += 10;
     }
 
     // Source tier risk (higher tier = less risky)
-    if (pkg.source_tier >= 4) {
+    if ((pkg.source_tier || 7) >= 4) {
       riskScore += 10;
     }
 
@@ -189,6 +204,42 @@ export class ScoringEngine {
     betterPackagesCount: number
   ): Promise<number> {
     return Math.round((betterPackagesCount / similarPackagesCount) * 100);
+  }
+
+  /**
+   * Orchestrate full scoring for a package and update the database
+   */
+  static async scorePackage(packageId: string): Promise<number> {
+    // 1. Fetch package
+    const pkg = await PackageService.getPackageById(packageId);
+    if (!pkg) return 0;
+
+    // 2. Get market baseline
+    const baseline = await PackageService.getMarketBaseline(pkg.destination_id, pkg.total_days);
+
+    // 3. Calculate all component scores
+    const valueScore = this.calculateValueScore(pkg, baseline);
+    const transparencyScore = this.calculateTransparencyScore(pkg);
+    const trustScore = this.calculateTrustScore(pkg);
+    const riskScore = this.calculateRiskScore(pkg);
+
+    // 4. Update package with component scores to calculate overall
+    const tempPkg = { ...pkg, value_score: valueScore, transparency_score: transparencyScore, trust_score: trustScore, risk_score: riskScore };
+    const overallScore = this.calculateOverallScore(tempPkg);
+
+    // 5. Save scores to DB
+    await query(
+      `UPDATE tour_packages SET 
+        value_score = $1, 
+        transparency_score = $2, 
+        trust_score = $3, 
+        risk_score = $4, 
+        overall_score = $5 
+       WHERE id = $6`,
+      [valueScore, transparencyScore, trustScore, riskScore, overallScore, packageId]
+    );
+
+    return overallScore;
   }
 
   /**

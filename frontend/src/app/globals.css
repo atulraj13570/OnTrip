@@ -9,8 +9,8 @@
     font-family: 'Outfit', sans-serif;
     line-height: 1.6;
     font-weight: 400;
-    color: #1f2937;
-    background-color: #f9fafb;
+    color: #0f172a;
+    background-color: #f0f4ff;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -18,53 +18,148 @@
   }
 
   body {
-    @apply bg-neutral-50;
-    background-image:
-      radial-gradient(circle at 10% 20%, rgba(221, 214, 254, 0.5) 0%, transparent 50%),
-      radial-gradient(circle at 90% 10%, rgba(186, 230, 253, 0.4) 0%, transparent 50%);
-    background-attachment: fixed;
+    @apply bg-[#f0f4ff] overflow-x-hidden;
+    background: 
+      radial-gradient(circle at 0% 0%, rgba(59, 102, 245, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 100% 100%, rgba(217, 70, 239, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.05) 0%, transparent 60%),
+      fixed;
   }
 
-  h1,
-  h2,
-  h3,
-  h4 {
-    color: #111827;
-    line-height: 1.2;
+  /* Animated Mesh Background */
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(at 0% 0%, hsla(227,100%,74%,1) 0, transparent 50%), 
+      radial-gradient(at 50% 0%, hsla(303,100%,74%,1) 0, transparent 50%), 
+      radial-gradient(at 100% 0%, hsla(192,100%,74%,1) 0, transparent 50%), 
+      radial-gradient(at 50% 50%, hsla(11,100%,74%,1) 0, transparent 50%);
+    filter: blur(80px) saturate(150%);
+    opacity: 0.1;
+    z-index: -1;
+    animation: mesh-move 20s ease-in-out infinite alternate;
+  }
+
+  h1, h2, h3, h4 {
+    @apply text-neutral-900 font-bold tracking-tight;
+    line-height: 1.1;
   }
 }
 
 @layer components {
-  .glass {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+  /* Frosted Glass with Noise */
+  .frosted {
+    @apply relative overflow-hidden;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+    backdrop-blur: 40px;
     border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 
+      0 8px 32px 0 rgba(31, 38, 135, 0.07),
+      inset 0 0 1px 0 rgba(255, 255, 255, 0.5);
   }
 
-  .card {
-    @apply glass rounded-3xl shadow-card;
+  .frosted::before {
+    content: "";
+    @apply absolute inset-0 opacity-[0.03] pointer-events-none;
+    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
   }
 
-  .card:hover {
-    @apply shadow-card-hover -translate-y-0.5 transition-all duration-200;
+  .glass-4d {
+    @apply frosted rounded-[2.5rem] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1),inset_0_-5px_15px_rgba(255,255,255,0.4),0_0_0_1px_rgba(255,255,255,0.2)];
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .btn-primary {
-    @apply bg-neutral-900 hover:bg-neutral-800 text-white px-10 py-4 rounded-2xl shadow-md transition-all duration-300 hover:shadow-lg font-semibold text-base;
+  .glass-4d:hover {
+    @apply shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2),inset_0_-8px_20px_rgba(255,255,255,0.6)];
+    transform: translateY(-8px) scale(1.02);
   }
 
-  .input-field {
-    @apply glass border border-neutral-200 rounded-2xl px-5 py-3.5 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 transition-all;
+  .btn-4d {
+    @apply relative overflow-hidden bg-primary-600 text-white px-8 py-5 rounded-[1.5rem] font-black
+           transition-all duration-500 shadow-[0_15px_30px_-5px_rgba(59,102,245,0.4)]
+           hover:shadow-[0_25px_50px_-5px_rgba(59,102,245,0.5)] hover:-translate-y-2
+           active:scale-95 border border-white/20 uppercase tracking-[0.2em] text-xs;
   }
 
-  .container {
-    @apply max-w-container mx-auto px-6 w-full;
+  .container-custom {
+    @apply max-w-[1440px] mx-auto px-6 w-full;
   }
 
-  .section-title {
-    @apply text-4xl font-extrabold text-center mb-12 tracking-tight text-neutral-900;
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-secondary-500 to-primary-400;
+  }
+
+  .text-reveal {
+    animation: reveal 1.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+  }
+
+  .animate-float-slow {
+    animation: float 10s ease-in-out infinite;
+  }
+
+  .animate-float-fast {
+    animation: float 4s ease-in-out infinite;
   }
 }
 
-/* Rebuild trigger - updated neutral colors */
+@keyframes reveal {
+  0% { transform: translateY(100%); opacity: 0; filter: blur(10px); }
+  100% { transform: translateY(0); opacity: 1; filter: blur(0px); }
+}
+
+@keyframes mesh-move {
+  0% { transform: scale(1) translate(0, 0) rotate(0deg); }
+  50% { transform: scale(1.3) translate(5%, 5%) rotate(5deg); }
+  100% { transform: scale(1) translate(0, 0) rotate(0deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-30px) rotate(2deg); }
+  66% { transform: translateY(-10px) rotate(-1deg); }
+}
+
+.glass-shine {
+  @apply relative overflow-hidden;
+}
+
+.glass-shine::after {
+  content: "";
+  position: absolute;
+  top: -150%;
+  left: -150%;
+  width: 400%;
+  height: 400%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(255, 255, 255, 0.05) 47%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0.05) 53%,
+    transparent 55%
+  );
+  animation: shine 8s infinite;
+  pointer-events: none;
+}
+
+@keyframes shine {
+  0% { transform: translate(-30%, -30%); }
+  100% { transform: translate(30%, 30%); }
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.rotate-y-10 {
+  transform: rotateY(10deg);
+}

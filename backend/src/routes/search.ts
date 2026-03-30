@@ -40,47 +40,65 @@ router.get("/", async (req: Request, res: Response) => {
   const { destination, price_min, price_max, sort, page, limit } =
     validated.data;
 
-  // Search packages
-  const { packages, total } = await PackageService.searchPackages(
-    destination,
-    price_min,
-    price_max,
-    sort || "overall_score",
-    page,
-    limit
-  );
-
-  res.json({
-    success: true,
-    data: {
-      total_results: total,
+  try {
+    // Search packages
+    const { packages, total } = await PackageService.searchPackages(
+      destination,
+      price_min,
+      price_max,
+      sort || "overall_score",
       page,
-      limit,
-      packages: packages.map((pkg) => ({
-        id: pkg.id,
-        name: pkg.name,
-        destination: pkg.destination,
-        days: pkg.total_days,
-        nights: pkg.total_nights,
-        price_per_person: pkg.pricing.total_per_person,
-        currency: pkg.pricing.currency,
-        value_score: pkg.value_score,
-        trust_score: pkg.trust_score,
-        overall_score: pkg.overall_score,
-        source_tier: pkg.source_tier,
-        source_name: pkg.source_name,
-        operator: pkg.operator_id,
-        data_freshness_days: pkg.data_freshness_days,
-      })),
-      filters_available: {
-        price_ranges: [],
-        durations: [],
-        travel_styles: [],
+      limit
+    );
+
+    // Map to API response format
+    const results = packages.map((pkg) => ({
+      id: pkg.id,
+      name: pkg.name,
+      description: pkg.description,
+      price_per_person: pkg.pricing?.total_per_person || 0,
+      currency: pkg.pricing?.currency || "INR",
+      days: pkg.total_days,
+      nights: pkg.total_nights,
+      destination: destination, // Use searched destination
+      source_name: pkg.source_name,
+      source_url: pkg.source_url,
+      overall_score: pkg.overall_score || 0,
+      value_score: pkg.value_score || 0,
+      transparency_score: pkg.transparency_score || 0,
+      trust_score: pkg.trust_score || 0,
+      risk_score: pkg.risk_score || 0,
+      operator: pkg.operator_data || {
+        name: pkg.source_name,
+        avg_rating: 4.5
+      }
+    }));
+
+    res.json({
+      success: true,
+      data: {
+        packages: results,
+        total,
+        page,
+        limit,
       },
-    },
-    timestamp: new Date().toISOString(),
-    request_id: req.id,
-  });
+    });
+  } catch (error: any) {
+    console.error("SEARCH_ROUTE_ERROR_DETAILED:", {
+      message: error.message,
+      name: error.name,
+      stack: error.stack,
+      aggregate: error.errors // In case of AggregateError
+    });
+    res.status(500).json({
+      success: false,
+      error: {
+        code: "INTERNAL_SERVER_ERROR",
+        message: "An unexpected error occurred",
+        statusCode: 500,
+      },
+    });
+  }
 });
 
 export default router;

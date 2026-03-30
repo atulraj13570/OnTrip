@@ -9,9 +9,19 @@ export interface TourPackage {
   source_tier: 1 | 2 | 3 | 4 | 5 | 6 | 7;
   source_name: string;
   source_url: string;
-  operator_id: string;
+  operator_id?: string;
+  operator_data?: {
+    name: string;
+    slug: string;
+    avg_rating: number;
+    trust_score: number;
+    total_reviews?: number;
+    founded_year?: number;
+    website_url?: string;
+  };
 
   destination: string;
+  destination_id: string;
   destination_code?: string;
   start_cities: string[];
   end_cities: string[];
@@ -36,10 +46,12 @@ export interface TourPackage {
   requirements: string[];
   warnings: Warning[];
 
+  overall_score: number;
   value_score: number;
   transparency_score: number;
   trust_score: number;
   risk_score: number;
+  
   overall_rank: number;
   rank_percentile: number;
 
