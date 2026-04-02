@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-32 md:pt-48 md:pb-64 overflow-hidden mx-4 md:mx-10 my-6 rounded-[4rem] md:rounded-[6rem] border border-white/50 shadow-2xl perspective-1000">
+      <section className="relative pt-24 pb-24 md:pt-48 md:pb-64 overflow-hidden mx-3 md:mx-10 my-4 md:my-6 rounded-[2.5rem] md:rounded-[6rem] border border-white/50 shadow-2xl perspective-1000">
         {/* Animated Background Blobs */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <motion.div animate={{ rotate: [0, 360], scale: [1, 1.2, 1] }} transition={{ duration: 20, repeat: Infinity }} className="absolute -top-24 -left-24 w-[40rem] h-[40rem] bg-primary-400/20 rounded-full blur-[120px]" />
@@ -43,19 +43,19 @@ export default function Home() {
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, type: 'spring' }}
-              className="mb-16 md:mb-24"
+              className="mb-10 md:mb-24"
             >
               <div className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full glass-4d text-primary-700 text-xs font-black tracking-[0.2em] uppercase mb-6 border-white/60 shadow-xl">
                 <Sparkles className="w-4 h-4 text-amber-500 animate-pulse" />
                 <span>Next-Gen Comparison Engine</span>
               </div>
 
-              <div className="mb-12 max-w-4xl mx-auto px-4">
+              <div className="mb-8 md:mb-12 max-w-4xl mx-auto px-2 md:px-4">
                 <motion.h2 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
-                  className="text-5xl md:text-7xl font-black text-neutral-900 tracking-tight leading-[1.1] mb-6"
+                  className="text-3xl sm:text-5xl md:text-7xl font-black text-neutral-900 tracking-tight leading-[1.1] mb-4 md:mb-6"
                 >
                   Find Your <span className="text-gradient">Perfect</span> Tour Package
                 </motion.h2>
@@ -63,16 +63,16 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.3 }}
-                  className="text-lg md:text-2xl text-neutral-600 font-medium leading-relaxed max-w-3xl mx-auto"
+                  className="text-sm sm:text-lg md:text-2xl text-neutral-600 font-medium leading-relaxed max-w-3xl mx-auto"
                 >
                   We compare tour packages transparently so you can see exactly what each one includes. Not just the cheapest—the best value.
                 </motion.p>
               </div>
 
-              <div className="glass-4d p-3 md:p-5 rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] max-w-5xl mx-auto relative group">
+              <div className="glass-4d p-2 md:p-5 rounded-[2rem] md:rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] max-w-5xl mx-auto relative group">
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 rounded-[3.8rem] blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-1000" />
-                <div className="relative bg-white/60 backdrop-blur-3xl rounded-[3.2rem] p-4 md:p-6 shadow-inner-light translate-z-10">
-                  <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-12 gap-5 items-center text-left">
+                <div className="relative bg-white/60 backdrop-blur-3xl rounded-[1.8rem] md:rounded-[3.2rem] p-3 md:p-6 shadow-inner-light translate-z-10">
+                  <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-5 items-center text-left">
                     <div className="md:col-span-4 relative">
                       <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-primary-500 animate-bounce" />
                       <input
@@ -80,14 +80,14 @@ export default function Home() {
                         value={destination}
                         onChange={(e) => setDestination(e.target.value)}
                         placeholder="Where are we venturing?"
-                        className="w-full bg-white/40 border border-white/60 hover:border-primary-400 focus:border-primary-500 rounded-[2rem] py-5 pl-16 pr-6 text-neutral-900 font-bold placeholder:text-neutral-400 outline-none transition-all"
+                        className="w-full bg-white/40 border border-white/60 hover:border-primary-400 focus:border-primary-500 rounded-[1.5rem] md:rounded-[2rem] py-4 md:py-5 pl-14 md:pl-16 pr-4 md:pr-6 text-neutral-900 font-bold placeholder:text-neutral-400 outline-none transition-all text-sm md:text-base"
                       />
                     </div>
-                    <div className="md:col-span-3 grid grid-cols-2 gap-3">
-                      <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="bg-white/40 border border-white/60 rounded-[1.8rem] py-5 px-5 text-neutral-900 font-bold text-xs outline-none focus:border-primary-500 transition-all font-sans" />
-                      <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="bg-white/40 border border-white/60 rounded-[1.8rem] py-5 px-5 text-neutral-900 font-bold text-xs outline-none focus:border-primary-500 transition-all font-sans" />
+                    <div className="md:col-span-3 grid grid-cols-2 gap-2 md:gap-3">
+                      <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="bg-white/40 border border-white/60 rounded-[1.3rem] md:rounded-[1.8rem] py-4 md:py-5 px-3 md:px-5 text-neutral-900 font-bold text-xs outline-none focus:border-primary-500 transition-all font-sans" />
+                      <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="bg-white/40 border border-white/60 rounded-[1.3rem] md:rounded-[1.8rem] py-4 md:py-5 px-3 md:px-5 text-neutral-900 font-bold text-xs outline-none focus:border-primary-500 transition-all font-sans" />
                     </div>
-                    <div className="md:col-span-3">
+                    <div className="md:col-span-3 hidden md:block">
                       <div className="relative px-7 py-5 bg-white/40 border border-white/60 rounded-[1.8rem] flex items-center justify-between cursor-pointer hover:border-primary-400 transition-all">
                         <div className="flex items-center gap-3">
                           <Globe className="w-5 h-5 text-secondary-500 animate-spin-slow" />
@@ -97,9 +97,9 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="md:col-span-2">
-                      <button type="submit" className="w-full btn-4d py-5 h-full flex items-center justify-center gap-3 group/btn">
-                        <Search className="w-6 h-6 group-hover/btn:scale-125 transition-transform duration-500" />
-                        <span className="text-sm font-black">SEARCH</span>
+                      <button type="submit" className="w-full btn-4d py-4 md:py-5 h-full flex items-center justify-center gap-2 md:gap-3 group/btn">
+                        <Search className="w-5 h-5 md:w-6 md:h-6 group-hover/btn:scale-125 transition-transform duration-500" />
+                        <span className="text-xs md:text-sm font-black">SEARCH</span>
                       </button>
                     </div>
                   </form>
@@ -108,12 +108,12 @@ export default function Home() {
             </motion.div>
 
             {/* Title with Staggered Reveal */}
-            <div className="overflow-hidden mb-10">
+            <div className="overflow-hidden mb-6 md:mb-10">
               <motion.h1 
                 initial={{ y: 200, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 1.2, ease: [0.77, 0, 0.175, 1] }}
-                className="text-6xl md:text-9xl font-black text-neutral-900 leading-[0.85] tracking-tighter"
+                className="text-5xl sm:text-6xl md:text-9xl font-black text-neutral-900 leading-[0.85] tracking-tighter"
               >
                 Beyond <br /> 
                 <span className="text-gradient">Horizon</span>
@@ -124,7 +124,7 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.8 }}
-              className="text-xl md:text-3xl text-neutral-500/80 mb-16 max-w-3xl mx-auto font-medium tracking-tight"
+              className="text-base sm:text-xl md:text-3xl text-neutral-500/80 mb-10 md:mb-16 max-w-3xl mx-auto font-medium tracking-tight px-4"
             >
               Comparing every pulse of your journey. <br className="hidden md:block" />
               Unmasking true costs with multidimensional data.
@@ -132,8 +132,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Floating 3D-like Icons */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        {/* Floating 3D-like Icons - hidden on mobile */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden hidden sm:block">
            {[Plane, Globe, Zap, Heart, Star, Sparkles].map((Icon, i) => (
              <motion.div 
                key={i}
@@ -156,9 +156,9 @@ export default function Home() {
       </section>
 
       {/* Trust Pillars with 4D Grid */}
-      <section className="py-20 relative">
+      <section className="py-12 md:py-20 relative">
         <div className="container-custom">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12">
             {[
               { 
                 icon: <ShieldCheck className="w-14 h-14 text-primary-500" />, 
@@ -185,7 +185,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, rotateY: 0, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: pillar.delay }}
-                className="card p-12 hover:rotate-y-10 group"
+                className="card p-8 md:p-12 hover:rotate-y-10 group"
               >
                 <div className="mb-10 p-6 rounded-[2rem] bg-white shadow-2xl inline-block group-hover:bg-primary-600 transition-colors duration-500">
                   <div className="group-hover:text-white transition-colors duration-500">
@@ -203,9 +203,9 @@ export default function Home() {
       </section>
 
       {/* Moving Data Section */}
-      <section className="py-40 relative">
+      <section className="py-16 md:py-40 relative">
         <div className="container-custom">
-           <div className="flex flex-col lg:flex-row items-center gap-32">
+           <div className="flex flex-col lg:flex-row items-center gap-12 md:gap-32">
              <div className="flex-1 relative">
                 <motion.div 
                   initial={{ scale: 0.8, rotate: -5 }}
@@ -215,11 +215,11 @@ export default function Home() {
                    <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80&w=1200" className="w-full aspect-video object-cover rounded-[3rem]" alt="Data Travel" />
                 </motion.div>
                 <motion.div 
-                  animate={{ y: [0, -20, 0] }}
-                  transition={{ duration: 4, repeat: Infinity }}
-                  className="absolute -top-12 -right-12 glass-4d p-8 rounded-3xl shadow-4d z-20"
+                   animate={{ y: [0, -20, 0] }}
+                   transition={{ duration: 4, repeat: Infinity }}
+                   className="absolute -top-8 -right-4 md:-top-12 md:-right-12 glass-4d p-4 md:p-8 rounded-3xl shadow-4d z-20"
                 >
-                   <span className="text-5xl font-black text-primary-600 tracking-tighter">98.4%</span>
+                   <span className="text-3xl md:text-5xl font-black text-primary-600 tracking-tighter">98.4%</span>
                    <p className="text-xs font-black text-neutral-500 uppercase tracking-widest mt-2">Accuracy Rate</p>
                 </motion.div>
              </div>
@@ -227,8 +227,8 @@ export default function Home() {
              <div className="flex-1">
                 <motion.h2 
                   initial={{ opacity: 0, x: 100 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  className="text-6xl md:text-8xl font-black text-neutral-900 tracking-tighter leading-[0.9] mb-12"
+                   whileInView={{ opacity: 1, x: 0 }}
+                   className="text-4xl sm:text-6xl md:text-8xl font-black text-neutral-900 tracking-tighter leading-[0.9] mb-8 md:mb-12"
                 >
                   Unveiling the <span className="text-gradient">Invisible</span>
                 </motion.h2>
@@ -259,21 +259,22 @@ export default function Home() {
       </section>
 
       {/* CTA Final */}
-      <section className="py-40">
+      <section className="py-16 md:py-40">
         <div className="container-custom">
           <motion.div 
             initial={{ scale: 0.9, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
-            className="glass-4d p-20 md:p-40 rounded-[5rem] md:rounded-[8rem] text-center relative overflow-hidden group shadow-4d"
+            className="glass-4d p-10 sm:p-20 md:p-40 rounded-[3rem] md:rounded-[8rem] text-center relative overflow-hidden group shadow-4d"
           >
             <div className="absolute inset-0 bg-gradient-radial from-primary-600/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-[2s]" />
             <div className="relative z-10">
-              <h2 className="text-6xl md:text-[10rem] font-black text-neutral-900 leading-none tracking-tighter mb-16">
-                Redefine <br /> Your Path.
+              <h2 className="text-4xl sm:text-6xl md:text-[10rem] font-black text-neutral-900 leading-none tracking-tighter mb-8 md:mb-16">
+                Redefine <br />
+                Your Path.
               </h2>
-              <button className="btn-4d py-6 px-16 text-xl group/btn">
+              <button className="btn-4d py-4 md:py-6 px-8 md:px-16 text-base md:text-xl group/btn">
                 Launch Search
-                <ArrowRight className="w-7 h-7 inline-block ml-4 group-hover/btn:translate-x-3 transition-transform duration-500" />
+                <ArrowRight className="w-5 h-5 md:w-7 md:h-7 inline-block ml-3 md:ml-4 group-hover/btn:translate-x-3 transition-transform duration-500" />
               </button>
             </div>
           </motion.div>

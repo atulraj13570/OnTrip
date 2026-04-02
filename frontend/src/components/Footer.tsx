@@ -10,12 +10,12 @@ export default function Footer() {
       <div className="absolute -top-48 -right-48 w-[40rem] h-[40rem] bg-secondary-500/5 rounded-full blur-[120px]" />
 
       <div className="container-custom relative z-10 px-6 md:px-12">
-        <div className="glass-4d p-12 md:p-24 rounded-[4rem] md:rounded-[6rem] shadow-4d border-white/60 mb-20 relative group">
+        <div className="glass-4d p-8 sm:p-12 md:p-24 rounded-[2.5rem] md:rounded-[6rem] shadow-4d border-white/60 mb-10 md:mb-20 relative group">
            {/* Inner shine */}
            <div className="absolute inset-0 bg-gradient-to-br from-primary-600/5 via-transparent to-secondary-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
            
-           <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-32 relative z-20">
-             <div className="col-span-1 md:col-span-1">
+           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-32 relative z-20">
+             <div className="col-span-2 md:col-span-1">
                <Link href="/" className="flex items-center gap-4 mb-8 group">
                  <div className="w-14 h-14 bg-primary-600 rounded-2xl flex items-center justify-center text-white shadow-xl group-hover:rotate-[360deg] transition-transform duration-1000">
                    <Plane className="w-8 h-8 rotate-45" />

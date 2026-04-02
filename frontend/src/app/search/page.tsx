@@ -145,29 +145,37 @@ function SearchResultsContent() {
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, type: 'spring' }}
-          className="glass-4d mb-16 p-8 rounded-[3.5rem] flex flex-wrap items-center justify-between gap-10 border-white/60 shadow-xl"
+          className="glass-4d mb-8 md:mb-16 p-4 md:p-8 rounded-[2rem] md:rounded-[3.5rem] border-white/60 shadow-xl"
         >
-          <form onSubmit={handleSearch} className="flex flex-1 flex-wrap items-center justify-between gap-10">
-            <div className="flex items-center gap-10">
-              <div className="w-20 h-20 bg-primary-100 rounded-[2.5rem] flex items-center justify-center text-primary-600 shadow-xl">
-                <MapPin className="w-10 h-10" />
+          <form onSubmit={handleSearch} className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center justify-between gap-4 md:gap-10">
+            <div className="flex items-center gap-4 md:gap-10 flex-1 min-w-0">
+              <div className="w-12 h-12 md:w-20 md:h-20 bg-primary-100 rounded-[1.5rem] md:rounded-[2.5rem] flex items-center justify-center text-primary-600 shadow-xl flex-shrink-0">
+                <MapPin className="w-6 h-6 md:w-10 md:h-10" />
               </div>
-              <div>
-                <div className="flex items-center gap-3 mb-2">
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2 md:gap-3 mb-1 md:mb-2">
                   <input 
                     type="text" 
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
-                    className="text-4xl font-black text-neutral-900 tracking-tighter leading-none bg-transparent border-none outline-none focus:ring-0 w-full"
+                    className="text-2xl md:text-4xl font-black text-neutral-900 tracking-tighter leading-none bg-transparent border-none outline-none focus:ring-0 w-full min-w-0"
                     placeholder="Where next?"
                   />
-                  <Sparkles className="w-5 h-5 text-amber-500 animate-pulse" />
+                  <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-amber-500 animate-pulse flex-shrink-0" />
                 </div>
-                <p className="text-neutral-500 font-black text-sm tracking-[0.2em] uppercase">8 Days • Mar 2024 • 2 Voyager Logic</p>
+                <p className="text-neutral-500 font-black text-[10px] md:text-sm tracking-[0.1em] md:tracking-[0.2em] uppercase">8 Days • Mar 2024 • 2 Voyagers</p>
               </div>
             </div>
             
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-3 md:gap-6 w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                className="lg:hidden flex items-center gap-2 px-4 py-3 rounded-2xl bg-white/40 border border-white/60 text-neutral-700 font-black text-xs uppercase tracking-widest"
+              >
+                <Filter className="w-4 h-4" />
+                Filters
+              </button>
               <div className="hidden xl:flex items-center gap-4 bg-white/40 px-6 py-4 rounded-3xl border border-white/60">
                  <div className="text-right">
                     <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Global Scan</p>
@@ -177,15 +185,15 @@ function SearchResultsContent() {
                     <Zap className="w-5 h-5" />
                  </div>
               </div>
-              <button type="submit" className="btn-4d py-4 px-10 flex items-center gap-3">
-                <Search className="w-5 h-5" />
-                <span>REFINE</span>
+              <button type="submit" className="btn-4d py-3 md:py-4 px-6 md:px-10 flex items-center gap-2 md:gap-3 flex-1 sm:flex-none justify-center">
+                <Search className="w-4 h-4 md:w-5 md:h-5" />
+                <span className="text-xs md:text-sm">REFINE</span>
               </button>
             </div>
           </form>
         </motion.div>
 
-        <div className="flex flex-col lg:flex-row gap-10">
+        <div className="flex flex-col lg:flex-row gap-6 md:gap-10">
           <aside className={`lg:w-80 space-y-8 ${isFilterOpen ? 'block' : 'hidden lg:block'}`}>
             <motion.div 
               initial={{ x: -50, opacity: 0 }}
@@ -271,42 +279,42 @@ function SearchResultsContent() {
                     transition={{ delay: idx * 0.1 }}
                     className="card p-4 md:p-2 group relative overflow-hidden glass-shine"
                   >
-                    <div className="flex flex-col md:flex-row gap-8">
+                    <div className="flex flex-col md:flex-row gap-4 md:gap-8">
                       <div className="md:w-[35%] relative">
-                        <div className="h-full aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl">
+                        <div className="h-48 md:h-full aspect-auto md:aspect-[4/3] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl">
                            <img src={pkg.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s]" alt={pkg.name} />
                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                         </div>
-                        <div className="absolute top-4 left-4 glass-4d px-4 py-2 rounded-xl text-white font-black text-[10px] flex items-center gap-2 uppercase tracking-widest">
-                          <Clock className="w-4 h-4 text-primary-300" />
+                        <div className="absolute top-3 left-3 md:top-4 md:left-4 glass-4d px-3 py-1.5 rounded-xl text-white font-black text-[10px] flex items-center gap-1.5 uppercase tracking-widest">
+                          <Clock className="w-3.5 h-3.5 text-primary-300" />
                           {pkg.duration}
                         </div>
                       </div>
 
-                      <div className="flex-1 p-6 flex flex-col justify-between">
+                      <div className="flex-1 p-4 md:p-6 flex flex-col justify-between">
                         <div>
-                          <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center justify-between mb-3 md:mb-4">
                             <p className="text-secondary-500 font-black text-[10px] uppercase tracking-widest">{pkg.operator}</p>
                             <div className="flex items-center gap-1.5 glass-4d px-3 py-1.5 rounded-full text-xs font-black text-neutral-800">
                               <Star className="w-3.5 h-3.5 text-amber-500 fill-current" />
                               {pkg.rating}
                             </div>
                           </div>
-                          <h3 className="text-3xl font-black text-neutral-900 tracking-tighter mb-6 leading-none">{pkg.name}</h3>
-                          <div className="grid grid-cols-2 gap-4 mb-8">
-                            <div className="bg-primary-50/40 p-5 rounded-3xl border border-primary-100/50 shadow-inner">
-                              <p className="text-[10px] font-black text-primary-400 uppercase tracking-widest mb-2">DIY PRICE</p>
-                              <p className="text-2xl font-black text-primary-600 tracking-tighter">${pkg.itineraryValue?.toFixed(0)}</p>
+                          <h3 className="text-xl md:text-3xl font-black text-neutral-900 tracking-tighter mb-4 md:mb-6 leading-none">{pkg.name}</h3>
+                          <div className="grid grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-8">
+                            <div className="bg-primary-50/40 p-3 md:p-5 rounded-2xl md:rounded-3xl border border-primary-100/50 shadow-inner">
+                              <p className="text-[10px] font-black text-primary-400 uppercase tracking-widest mb-1 md:mb-2">DIY PRICE</p>
+                              <p className="text-xl md:text-2xl font-black text-primary-600 tracking-tighter">${pkg.itineraryValue?.toFixed(0)}</p>
                             </div>
-                            <div className="bg-secondary-50/40 p-5 rounded-3xl border border-secondary-100/50 shadow-inner">
-                              <p className="text-[10px] font-black text-secondary-400 uppercase tracking-widest mb-2">PACKAGE PRICE</p>
-                              <p className="text-2xl font-black text-secondary-600 tracking-tighter">${pkg.packagePrice}</p>
+                            <div className="bg-secondary-50/40 p-3 md:p-5 rounded-2xl md:rounded-3xl border border-secondary-100/50 shadow-inner">
+                              <p className="text-[10px] font-black text-secondary-400 uppercase tracking-widest mb-1 md:mb-2">PACKAGE</p>
+                              <p className="text-xl md:text-2xl font-black text-secondary-600 tracking-tighter">${pkg.packagePrice}</p>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="md:w-[25%] p-8 bg-white/40 backdrop-blur-md rounded-[3rem] border border-white/60 flex flex-col justify-between relative overflow-hidden shadow-xl">
+                      <div className="md:w-[25%] p-4 md:p-8 bg-white/40 backdrop-blur-md rounded-[2rem] md:rounded-[3rem] border border-white/60 flex flex-row md:flex-col justify-between items-center md:items-start relative overflow-hidden shadow-xl">
                          <div className="text-center md:text-left">
                             <div className="inline-flex items-center gap-3 mb-3 p-3 rounded-2xl bg-white shadow-xl">
                                <ShieldCheck className={`w-6 h-6 ${pkg.truthScore > 90 ? 'text-emerald-500' : 'text-amber-500'} animate-pulse`} />

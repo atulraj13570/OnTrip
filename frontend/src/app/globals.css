@@ -109,6 +109,37 @@
   .animate-float-fast {
     animation: float 4s ease-in-out infinite;
   }
+  .card {
+    @apply bg-white/60 backdrop-blur-md rounded-[2.5rem] border border-white/40 shadow-[0_4px_20px_-1px_rgba(0,0,0,0.05)] transition-all duration-500;
+  }
+
+  .card:hover {
+    @apply shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1)] -translate-y-1;
+  }
+
+  .glass {
+    @apply bg-white/30 backdrop-blur-md border border-white/40 rounded-2xl;
+  }
+
+  .btn-primary {
+    @apply bg-primary-600 text-white px-8 py-4 rounded-[1.5rem] font-bold transition-all duration-300
+           hover:bg-primary-700 hover:-translate-y-1 shadow-[0_10px_20px_-5px_rgba(59,102,245,0.4)]
+           hover:shadow-[0_20px_30px_-5px_rgba(59,102,245,0.5)] text-center;
+  }
+}
+
+@layer utilities {
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .text-success { color: #10b981; }
+  .bg-success { background-color: #10b981; }
+  .border-success { border-color: #10b981; }
+  .text-warning { color: #f59e0b; }
 }
 
 @keyframes reveal {

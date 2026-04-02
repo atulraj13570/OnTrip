@@ -157,12 +157,12 @@ export default function PackageDetail({ params }: PackageDetailProps) {
                   <span className="w-1 h-1 rounded-full bg-primary-400" />
                   <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {pkg.total_days} Days</span>
                 </div>
-                <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight max-w-3xl leading-[1.1]">
+                <h1 className="text-2xl sm:text-4xl md:text-6xl font-extrabold text-white tracking-tight max-w-3xl leading-[1.1]">
                   {pkg.name}
                 </h1>
               </div>
               
-              <div className="flex bg-white/10 backdrop-blur-xl border border-white/20 p-4 rounded-3xl items-center gap-6">
+              <div className="flex flex-wrap bg-white/10 backdrop-blur-xl border border-white/20 p-3 md:p-4 rounded-2xl md:rounded-3xl items-center gap-3 md:gap-6">
                 <div className="text-center">
                   <p className="text-white/60 text-[10px] font-bold uppercase mb-1">Truth Score</p>
                   <div className="text-2xl font-black text-primary-400">{pkg.value_score}</div>
@@ -188,12 +188,12 @@ export default function PackageDetail({ params }: PackageDetailProps) {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-12">
             {/* Tabs */}
-            <div className="flex border-b border-neutral-200 sticky top-24 bg-neutral-50/80 backdrop-blur-md z-30 pt-4">
+            <div className="flex border-b border-neutral-200 sticky top-24 bg-neutral-50/80 backdrop-blur-md z-30 pt-4 overflow-x-auto scrollbar-none -mx-4 px-4">
               {['itinerary', 'inclusions', 'policies'].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-8 py-4 text-sm font-bold uppercase tracking-widest transition-all relative ${
+                  className={`px-5 md:px-8 py-4 text-sm font-bold uppercase tracking-widest transition-all relative whitespace-nowrap ${
                     activeTab === tab ? 'text-primary-600' : 'text-neutral-400 hover:text-neutral-600'
                   }`}
                 >
