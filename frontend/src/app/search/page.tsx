@@ -2,6 +2,7 @@
 
 import { useState, Suspense, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { useSettings } from '@/components/SettingsProvider'
 import { motion } from 'framer-motion'
 import { 
   Search, MapPin, Filter, 
@@ -265,6 +266,7 @@ const SAMPLE_MOCKS: Record<string, any[]> = {
 }
 
 function SearchResultsContent() {
+  const { formatPrice } = useSettings()
   const searchParams = useSearchParams()
   const [packages, setPackages] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -513,11 +515,11 @@ function SearchResultsContent() {
                           <div className="grid grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-8">
                             <div className="bg-primary-50/40 p-3 md:p-5 rounded-2xl md:rounded-3xl border border-primary-100/50 shadow-inner">
                               <p className="text-[10px] font-black text-primary-400 uppercase tracking-widest mb-1 md:mb-2">DIY PRICE</p>
-                              <p className="text-xl md:text-2xl font-black text-primary-600 tracking-tighter">${pkg.itineraryValue?.toFixed(0)}</p>
+                              <p className="text-xl md:text-2xl font-black text-primary-600 tracking-tighter">{formatPrice(pkg.itineraryValue)}</p>
                             </div>
                             <div className="bg-secondary-50/40 p-3 md:p-5 rounded-2xl md:rounded-3xl border border-secondary-100/50 shadow-inner">
                               <p className="text-[10px] font-black text-secondary-400 uppercase tracking-widest mb-1 md:mb-2">PACKAGE</p>
-                              <p className="text-xl md:text-2xl font-black text-secondary-600 tracking-tighter">${pkg.packagePrice}</p>
+                              <p className="text-xl md:text-2xl font-black text-secondary-600 tracking-tighter">{formatPrice(pkg.packagePrice)}</p>
                             </div>
                           </div>
                         </div>
@@ -533,7 +535,7 @@ function SearchResultsContent() {
                          <div className="my-10">
                            <p className="text-xs font-black text-neutral-400 uppercase tracking-widest mb-1">Savings</p>
                            <p className={`text-4xl font-black ${pkg.savings > 0 ? 'text-emerald-500' : 'text-amber-400'} tracking-tighter`}>
-                             ${pkg.savings}
+                             {formatPrice(pkg.savings)}
                            </p>
                          </div>
                          <button className="w-full btn-4d py-5 flex items-center justify-center gap-3 uppercase tracking-widest text-xs font-black">

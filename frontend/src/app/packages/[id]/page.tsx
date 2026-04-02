@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useSettings } from '@/components/SettingsProvider'
 import { 
   ArrowLeft, 
   MapPin, 
@@ -30,6 +31,7 @@ interface PackageDetailProps {
 
 export default function PackageDetail({ params }: PackageDetailProps) {
   const { id } = params
+  const { formatPrice } = useSettings()
   const [pkg, setPkg] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('itinerary')
@@ -347,10 +349,10 @@ export default function PackageDetail({ params }: PackageDetailProps) {
                 <div className="flex items-center justify-between mb-8">
                   <div>
                     <span className="text-xs font-bold text-neutral-400 uppercase tracking-widest line-through">
-                      ${pkg.pricing.original_price}
+                      {formatPrice(pkg.pricing.original_price)}
                     </span>
                     <div className="flex items-end gap-1">
-                      <span className="text-4xl font-black text-neutral-900">${pkg.pricing.total_per_person}</span>
+                      <span className="text-4xl font-black text-neutral-900">{formatPrice(pkg.pricing.total_per_person)}</span>
                       <span className="text-sm font-bold text-neutral-500 pb-1">/ person</span>
                     </div>
                   </div>

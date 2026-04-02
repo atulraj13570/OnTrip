@@ -4,11 +4,34 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Plane, Search, Globe, Menu, X, ArrowRight } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { useSettings } from './SettingsProvider'
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isRegionalSettingsOpen, setIsRegionalSettingsOpen] = useState(false)
+
+  const { language, setLanguage, country, setCountry, currency, setCurrency } = useSettings()
+  
+  // Local state for modal to prevent immediate changes
+  const [localLang, setLocalLang] = useState(language)
+  const [localCountry, setLocalCountry] = useState(country)
+  const [localCurrency, setLocalCurrency] = useState(currency)
+
+  useEffect(() => {
+    if (isRegionalSettingsOpen) {
+      setLocalLang(language)
+      setLocalCountry(country)
+      setLocalCurrency(currency)
+    }
+  }, [isRegionalSettingsOpen, language, country, currency])
+
+  const handleSaveSettings = () => {
+    setLanguage(localLang)
+    setCountry(localCountry)
+    setCurrency(localCurrency)
+    setIsRegionalSettingsOpen(false)
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -234,7 +257,11 @@ export default function Navbar() {
               <div className="space-y-6">
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-neutral-600 ml-2">Language</label>
-                  <select className="w-full bg-neutral-50 border border-neutral-200 text-neutral-900 text-base font-medium rounded-2xl focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500 block p-4 outline-none appearance-none cursor-pointer transition-all">
+                  <select 
+                    value={localLang}
+                    onChange={(e) => setLocalLang(e.target.value)}
+                    className="w-full bg-neutral-50 border border-neutral-200 text-neutral-900 text-base font-medium rounded-2xl focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500 block p-4 outline-none appearance-none cursor-pointer transition-all"
+                  >
                     <option value="en">English (US)</option>
                     <option value="en-gb">English (UK)</option>
                     <option value="es">Español</option>
@@ -245,7 +272,11 @@ export default function Navbar() {
 
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-neutral-600 ml-2">Country/Region</label>
-                  <select className="w-full bg-neutral-50 border border-neutral-200 text-neutral-900 text-base font-medium rounded-2xl focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500 block p-4 outline-none appearance-none cursor-pointer transition-all">
+                  <select 
+                    value={localCountry}
+                    onChange={(e) => setLocalCountry(e.target.value)}
+                    className="w-full bg-neutral-50 border border-neutral-200 text-neutral-900 text-base font-medium rounded-2xl focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500 block p-4 outline-none appearance-none cursor-pointer transition-all"
+                  >
                     <option value="US">United States</option>
                     <option value="IN">India</option>
                     <option value="UK">United Kingdom</option>
@@ -256,7 +287,11 @@ export default function Navbar() {
 
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-neutral-600 ml-2">Currency</label>
-                  <select className="w-full bg-neutral-50 border border-neutral-200 text-neutral-900 text-base font-medium rounded-2xl focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500 block p-4 outline-none appearance-none cursor-pointer transition-all">
+                  <select 
+                    value={localCurrency}
+                    onChange={(e) => setLocalCurrency(e.target.value)}
+                    className="w-full bg-neutral-50 border border-neutral-200 text-neutral-900 text-base font-medium rounded-2xl focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500 block p-4 outline-none appearance-none cursor-pointer transition-all"
+                  >
                     <option value="USD">USD ($)</option>
                     <option value="INR">INR (₹)</option>
                     <option value="EUR">EUR (€)</option>
@@ -274,7 +309,7 @@ export default function Navbar() {
                   Cancel
                 </button>
                 <button 
-                  onClick={() => setIsRegionalSettingsOpen(false)}
+                  onClick={handleSaveSettings}
                   className="flex-1 py-4 px-6 rounded-2xl btn-primary shadow-premium"
                 >
                   Save Settings
