@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react'
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isRegionalSettingsOpen, setIsRegionalSettingsOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,15 +18,15 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Lock body scroll when mobile menu is open
+  // Lock body scroll when mobile menu or settings modal is open
   useEffect(() => {
-    if (isMobileMenuOpen) {
+    if (isMobileMenuOpen || isRegionalSettingsOpen) {
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = ''
     }
     return () => { document.body.style.overflow = '' }
-  }, [isMobileMenuOpen])
+  }, [isMobileMenuOpen, isRegionalSettingsOpen])
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -70,7 +71,11 @@ export default function Navbar() {
 
             {/* Desktop Actions */}
             <div className="hidden md:flex items-center gap-6">
-              <button className="p-3 glass rounded-2xl text-neutral-400 hover:text-primary-600 transition-all hover:rotate-12 hover:scale-110">
+              <button 
+                onClick={() => setIsRegionalSettingsOpen(true)}
+                className="p-3 glass rounded-2xl text-neutral-400 hover:text-primary-600 transition-all hover:rotate-12 hover:scale-110"
+                aria-label="Regional Settings"
+              >
                 <Globe className="w-6 h-6 animate-spin-slow" />
               </button>
               <Link href="/search" className="btn-4d py-3.5 px-8 flex items-center gap-2 text-sm">
@@ -81,7 +86,7 @@ export default function Navbar() {
 
             {/* Mobile Toggle */}
             <button 
-              className="md:hidden p-2.5 rounded-xl bg-white/60 backdrop-blur-md border border-white/60 text-neutral-900 shadow-sm"
+              className="md:hidden p-2.5 rounded-xl bg-white/60 backdrop-blur-md border border-white/60 text-neutral-900 shadow-sm ml-2"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -155,6 +160,23 @@ export default function Navbar() {
                 ))}
               </div>
 
+              {/* Mobile Actions */}
+              <div className="px-6 pb-4">
+                <button 
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setTimeout(() => setIsRegionalSettingsOpen(true), 300);
+                  }}
+                  className="flex items-center justify-between w-full py-4 px-3 rounded-2xl text-lg font-bold text-neutral-600 hover:bg-neutral-50 transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <Globe className="w-5 h-5" />
+                    Regional Settings
+                  </div>
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </div>
+
               {/* CTA */}
               <div className="px-6 pb-8 pt-2">
                 <div className="h-px bg-neutral-100 mb-6" />
@@ -166,6 +188,97 @@ export default function Navbar() {
                   <Search className="w-5 h-5" />
                   LAUNCH SEARCH
                 </Link>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Regional Settings Modal */}
+      <AnimatePresence>
+        {isRegionalSettingsOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-[200] bg-black/50 backdrop-blur-sm"
+              onClick={() => setIsRegionalSettingsOpen(false)}
+            />
+
+            {/* Modal Content */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed inset-x-4 top-[10%] md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-[210] md:w-full md:max-w-md bg-white/95 backdrop-blur-xl rounded-[2rem] shadow-2xl border border-white p-6 md:p-8"
+            >
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-primary-50 rounded-2xl flex items-center justify-center text-primary-600">
+                    <Globe className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-xl font-black text-neutral-900 tracking-tight">Regional Settings</h3>
+                </div>
+                <button 
+                  onClick={() => setIsRegionalSettingsOpen(false)}
+                  className="w-10 h-10 rounded-full bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-500 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-neutral-600 ml-2">Language</label>
+                  <select className="w-full bg-neutral-50 border border-neutral-200 text-neutral-900 text-base font-medium rounded-2xl focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500 block p-4 outline-none appearance-none cursor-pointer transition-all">
+                    <option value="en">English (US)</option>
+                    <option value="en-gb">English (UK)</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="hi">हिंदी (Hindi)</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-neutral-600 ml-2">Country/Region</label>
+                  <select className="w-full bg-neutral-50 border border-neutral-200 text-neutral-900 text-base font-medium rounded-2xl focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500 block p-4 outline-none appearance-none cursor-pointer transition-all">
+                    <option value="US">United States</option>
+                    <option value="IN">India</option>
+                    <option value="UK">United Kingdom</option>
+                    <option value="CA">Canada</option>
+                    <option value="AU">Australia</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-neutral-600 ml-2">Currency</label>
+                  <select className="w-full bg-neutral-50 border border-neutral-200 text-neutral-900 text-base font-medium rounded-2xl focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500 block p-4 outline-none appearance-none cursor-pointer transition-all">
+                    <option value="USD">USD ($)</option>
+                    <option value="INR">INR (₹)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="GBP">GBP (£)</option>
+                    <option value="AUD">AUD ($)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex gap-4 mt-10">
+                <button 
+                  onClick={() => setIsRegionalSettingsOpen(false)}
+                  className="flex-1 py-4 px-6 rounded-2xl text-neutral-600 font-bold hover:bg-neutral-100 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={() => setIsRegionalSettingsOpen(false)}
+                  className="flex-1 py-4 px-6 rounded-2xl btn-primary shadow-premium"
+                >
+                  Save Settings
+                </button>
               </div>
             </motion.div>
           </>
