@@ -369,12 +369,12 @@ function SearchResultsContent() {
                     type="text" 
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
-                    className="text-2xl md:text-4xl font-black text-neutral-900 tracking-tighter leading-none bg-transparent border-none outline-none focus:ring-0 w-full min-w-0"
+                    className="text-2xl md:text-3xl font-black text-neutral-900 tracking-tighter leading-none bg-transparent border-none outline-none focus:ring-0 w-full min-w-0 uppercase"
                     placeholder="Where next?"
                   />
                   <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-amber-500 animate-pulse flex-shrink-0" />
                 </div>
-                <p className="text-neutral-500 font-black text-[10px] md:text-sm tracking-[0.1em] md:tracking-[0.2em] uppercase">8 Days • Mar 2024 • 2 Voyagers</p>
+                <p className="text-neutral-500 font-black text-[10px] md:text-sm tracking-[0.1em] md:tracking-[0.2em] uppercase">8 Days • Mar 2024 • {searchParams.get('voyagers') || '2'} Voyager{searchParams.get('voyagers') === '1' ? '' : 's'}</p>
               </div>
             </div>
             
