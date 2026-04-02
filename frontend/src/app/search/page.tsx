@@ -61,6 +61,209 @@ const mockPackages = [
   }
 ]
 
+// Mock data based on requested 13 specific travel providers
+const SAMPLE_MOCKS: Record<string, any[]> = {
+  meghalaya: [
+    {
+      id: "meg-1",
+      name: "Mesmerizing Meghalaya Escapade",
+      operator: "Holidify",
+      rating: 4.8,
+      reviews: 142,
+      itineraryValue: 24500,
+      packagePrice: 19999,
+      truthScore: 92,
+      duration: "5D / 4N",
+      stops: ["Shillong", "Cherrapunjee", "Dawki"],
+      inclusions: ["Verified Operator", "Hotels", "Transfers"],
+      savings: 4501,
+      image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      id: "meg-2",
+      name: "Meghalaya Backpacking Trip",
+      operator: "Deyor",
+      rating: 4.6,
+      reviews: 89,
+      itineraryValue: 18000,
+      packagePrice: 15500,
+      truthScore: 88,
+      duration: "4D / 3N",
+      stops: ["Guwahati", "Shillong", "Cherrapunjee"],
+      inclusions: ["Breakfast", "Activities", "Cabs"],
+      savings: 2500,
+      image: "https://images.unsplash.com/photo-1552678049-2e6b20755efc?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      id: "meg-3",
+      name: "Premium Meghalaya Tour",
+      operator: "TravelTriangle",
+      rating: 4.5,
+      reviews: 312,
+      itineraryValue: 32000,
+      packagePrice: 28500,
+      truthScore: 85,
+      duration: "6D / 5N",
+      stops: ["Shillong", "Mawlynnong", "Dawki", "Cherrapunjee"],
+      inclusions: ["Premium Stays", "Cabs", "Meals"],
+      savings: 3500,
+      image: "https://plus.unsplash.com/premium_photo-1697730221799-f2aa87ab2c5d?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      id: "meg-4",
+      name: "Discover Meghalaya & Root Bridges",
+      operator: "UnoTrips",
+      rating: 4.7,
+      reviews: 56,
+      itineraryValue: 22000,
+      packagePrice: 18900,
+      truthScore: 92,
+      duration: "5D / 4N",
+      stops: ["Shillong", "Cherrapunjee"],
+      inclusions: ["Sightseeing", "Transfers", "Meals"],
+      savings: 3100,
+      image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      id: "meg-5",
+      name: "Authentic Meghalaya Experience",
+      operator: "Nexplore",
+      rating: 4.9,
+      reviews: 120,
+      itineraryValue: 26000,
+      packagePrice: 21500,
+      truthScore: 95,
+      duration: "6D / 5N",
+      stops: ["Shillong", "Dawki", "Mawlynnong"],
+      inclusions: ["Local Guide", "Homestays", "Meals"],
+      savings: 4500,
+      image: "https://images.unsplash.com/photo-1552678049-2e6b20755efc?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      id: "meg-6",
+      name: "Meghalaya Group Departure",
+      operator: "eTripTo",
+      rating: 4.4,
+      reviews: 45,
+      itineraryValue: 15000,
+      packagePrice: 12500,
+      truthScore: 82,
+      duration: "4D / 3N",
+      stops: ["Shillong", "Cherrapunjee"],
+      inclusions: ["Group Transport", "Hotels"],
+      savings: 2500,
+      image: "https://plus.unsplash.com/premium_photo-1697730221799-f2aa87ab2c5d?auto=format&fit=crop&q=80&w=800"
+    }
+  ],
+  sikkim: [
+    {
+      id: "sik-1",
+      name: "Magical Sikkim Delight",
+      operator: "EaseMyTrip",
+      rating: 4.7,
+      reviews: 840,
+      itineraryValue: 35000,
+      packagePrice: 28999,
+      truthScore: 91,
+      duration: "6D / 5N",
+      stops: ["Gangtok", "Lachung", "Pelling"],
+      inclusions: ["Flights Optional", "Hotels", "Cabs"],
+      savings: 6001,
+      image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      id: "sik-2",
+      name: "Sikkim Family Tour",
+      operator: "Heena Tours",
+      rating: 4.6,
+      reviews: 320,
+      itineraryValue: 42000,
+      packagePrice: 35500,
+      truthScore: 88,
+      duration: "7D / 6N",
+      stops: ["Gangtok", "Darjeeling", "Nathula"],
+      inclusions: ["All Meals", "Premium Transport", "Guide"],
+      savings: 6500,
+      image: "https://images.unsplash.com/photo-1552678049-2e6b20755efc?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      id: "sik-3",
+      name: "Romantic Sikkim Honeymoon",
+      operator: "MakeMyHoliday Tours",
+      rating: 4.8,
+      reviews: 156,
+      itineraryValue: 55000,
+      packagePrice: 45000,
+      truthScore: 94,
+      duration: "7D / 6N",
+      stops: ["Gangtok", "Pelling", "Darjeeling"],
+      inclusions: ["Resorts", "Candlelight Dinner", "Private Cab"],
+      savings: 10000,
+      image: "https://plus.unsplash.com/premium_photo-1697730221799-f2aa87ab2c5d?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      id: "sik-4",
+      name: "Sikkim Adventure Combo",
+      operator: "Kiomoi",
+      rating: 4.3,
+      reviews: 94,
+      itineraryValue: 28000,
+      packagePrice: 24500,
+      truthScore: 83,
+      duration: "5D / 4N",
+      stops: ["Gangtok", "Tsomgo Lake", "Baba Mandir"],
+      inclusions: ["Permits Included", "Hotels", "Cabs"],
+      savings: 3500,
+      image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      id: "sik-5",
+      name: "Sikkim & Darjeeling Explorer",
+      operator: "SetMyTrip",
+      rating: 4.5,
+      reviews: 210,
+      itineraryValue: 31000,
+      packagePrice: 25900,
+      truthScore: 87,
+      duration: "6D / 5N",
+      stops: ["Gangtok", "Darjeeling"],
+      inclusions: ["Hotels", "Breakfast", "Sightseeing"],
+      savings: 5100,
+      image: "https://images.unsplash.com/photo-1552678049-2e6b20755efc?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      id: "sik-6",
+      name: "Sikkim Bliss",
+      operator: "Navbharat Tourism",
+      rating: 4.4,
+      reviews: 67,
+      itineraryValue: 24000,
+      packagePrice: 19999,
+      truthScore: 84,
+      duration: "5D / 4N",
+      stops: ["Gangtok", "Lachung"],
+      inclusions: ["Transport", "Hotels"],
+      savings: 4001,
+      image: "https://plus.unsplash.com/premium_photo-1697730221799-f2aa87ab2c5d?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      id: "sik-7",
+      name: "Hidden Gems of Sikkim",
+      operator: "GoTravelista",
+      rating: 4.7,
+      reviews: 88,
+      itineraryValue: 38000,
+      packagePrice: 32000,
+      truthScore: 90,
+      duration: "7D / 6N",
+      stops: ["Gangtok", "Lachen", "Lachung", "Yumthang"],
+      inclusions: ["All Permits", "Homestays", "Meals"],
+      savings: 6000,
+      image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80&w=800"
+    }
+  ]
+}
+
 function SearchResultsContent() {
   const searchParams = useSearchParams()
   const [packages, setPackages] = useState<any[]>([])
@@ -100,7 +303,13 @@ function SearchResultsContent() {
       }
     } catch (err) {
       console.error("Fetch error:", err)
-      setPackages([])
+      // Fallback for Vercel demo since localhost:3001 isn't available
+      const searchKey = dest.toLowerCase().trim()
+      if (SAMPLE_MOCKS[searchKey]) {
+        setPackages(SAMPLE_MOCKS[searchKey])
+      } else {
+        setPackages(mockPackages.map((pkg: any) => ({ ...pkg, stops: [dest] })))
+      }
     } finally {
       setIsLoading(false)
     }
