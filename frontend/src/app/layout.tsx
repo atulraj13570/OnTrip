@@ -18,12 +18,14 @@ export default function RootLayout({
         />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body>
-        <Navbar />
-        <main className="min-h-screen pt-24">
-          {children}
-        </main>
-        <Footer />
+      <body className="antialiased bg-[#f0f4ff]">
+        <div className="flex flex-col min-h-screen relative overflow-x-clip w-full max-w-[100vw]">
+          <Navbar />
+          <main className="flex-grow pt-24 overflow-x-clip">
+            {children}
+          </main>
+          <Footer />
+        </div>
         <Analytics />
       </body>
     </html>

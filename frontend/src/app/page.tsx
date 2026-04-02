@@ -45,7 +45,7 @@ export default function Home() {
               transition={{ duration: 1, type: 'spring' }}
               className="mb-10 md:mb-24"
             >
-              <div className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full glass-4d text-primary-700 text-xs font-black tracking-[0.2em] uppercase mb-6 border-white/60 shadow-xl">
+              <div className="inline-flex items-center justify-center flex-wrap gap-2 px-4 py-2 sm:px-6 sm:py-2.5 rounded-full glass-4d text-primary-700 text-[10px] sm:text-xs font-black tracking-wider sm:tracking-[0.2em] uppercase mb-6 border-white/60 shadow-xl max-w-full">
                 <Sparkles className="w-4 h-4 text-amber-500 animate-pulse" />
                 <span>Next-Gen Comparison Engine</span>
               </div>
@@ -217,7 +217,7 @@ export default function Home() {
                 <motion.div 
                    animate={{ y: [0, -20, 0] }}
                    transition={{ duration: 4, repeat: Infinity }}
-                   className="absolute -top-8 -right-4 md:-top-12 md:-right-12 glass-4d p-4 md:p-8 rounded-3xl shadow-4d z-20"
+                   className="absolute -top-8 right-0 md:-top-12 md:-right-12 glass-4d p-4 md:p-8 rounded-3xl shadow-4d z-20"
                 >
                    <span className="text-3xl md:text-5xl font-black text-primary-600 tracking-tighter">98.4%</span>
                    <p className="text-xs font-black text-neutral-500 uppercase tracking-widest mt-2">Accuracy Rate</p>
