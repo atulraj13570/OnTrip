@@ -89,21 +89,30 @@ export default function Home() {
                       <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="bg-white/40 border border-white/60 rounded-[1.3rem] md:rounded-[1.8rem] py-4 md:py-5 px-3 md:px-5 text-neutral-900 font-bold text-xs outline-none focus:border-primary-500 transition-all font-sans" />
                     </div>
                     <div className="md:col-span-3">
-                      <div className="relative px-4 md:px-7 py-3 md:py-5 bg-white/40 border border-white/60 rounded-[1.3rem] md:rounded-[1.8rem] flex items-center justify-between cursor-pointer hover:border-primary-400 transition-all focus-within:border-primary-500">
-                        <div className="flex items-center gap-2 md:gap-3 pointer-events-none absolute left-4 md:left-7">
-                          <Globe className="w-4 h-4 md:w-5 md:h-5 text-secondary-500 animate-spin-slow" />
-                          <span className="font-extrabold text-neutral-700 text-xs md:text-sm uppercase">{voyagers} VOYAGERS</span>
+                      <div className="px-4 md:px-6 py-3 md:py-4 bg-white/40 border border-white/60 rounded-[1.3rem] md:rounded-[1.8rem] flex items-center justify-between gap-3 hover:border-primary-400 transition-all">
+                        <div className="flex items-center gap-2 md:gap-3 min-w-0">
+                          <Globe className="w-4 h-4 md:w-5 md:h-5 text-secondary-500 animate-spin-slow flex-shrink-0" />
+                          <span className="font-extrabold text-neutral-500 text-[10px] md:text-xs uppercase tracking-widest whitespace-nowrap">Voyagers</span>
                         </div>
-                        <select 
-                          value={voyagers} 
-                          onChange={(e) => setVoyagers(parseInt(e.target.value))}
-                          className="w-full h-full opacity-0 absolute inset-0 cursor-pointer"
-                        >
-                          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
-                            <option key={num} value={num}>{num} Voyager{num !== 1 && 's'}</option>
-                          ))}
-                        </select>
-                        <ChevronRight className="w-3 h-3 md:w-4 md:h-4 rotate-90 text-neutral-400 absolute right-4 md:right-7 pointer-events-none" />
+                        <div className="flex items-center gap-2 md:gap-3">
+                          <button
+                            type="button"
+                            onClick={() => setVoyagers(v => Math.max(1, v - 1))}
+                            className="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-white shadow-md border border-neutral-200 flex items-center justify-center text-neutral-600 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-600 active:scale-95 transition-all font-black text-lg leading-none select-none"
+                          >
+                            −
+                          </button>
+                          <span className="w-6 text-center font-black text-neutral-900 text-base md:text-lg tabular-nums">
+                            {voyagers}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => setVoyagers(v => Math.min(10, v + 1))}
+                            className="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-white shadow-md border border-neutral-200 flex items-center justify-center text-neutral-600 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-600 active:scale-95 transition-all font-black text-lg leading-none select-none"
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
                     </div>
                     <div className="md:col-span-2">
